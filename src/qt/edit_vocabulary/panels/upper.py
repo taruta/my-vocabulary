@@ -1,7 +1,14 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout
+from PyQt6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+)
+
+from src.datamodels import (
+    Word,
+    Relation,
+)
 from .edit import EditPanelWidget
 from .lists import ListsPanelWidget
-from src.datamodels import Word, Relation
 
 
 class UpperPanelWidget(QWidget):
@@ -28,13 +35,15 @@ class UpperPanelWidget(QWidget):
                 example=self.edit_panel.example.text(),
             )
         if native_word and foreign_word:
+            part_of_speech = \
+                self.edit_panel.part_of_speech.currentText().lower()
             native_word.relations[foreign_word.name] = Relation(
                 word=foreign_word,
-                part_of_speech=self.edit_panel.part_of_speech.text()
+                part_of_speech=part_of_speech,
             )
             foreign_word.relations[native_word.name] = Relation(
                 word=foreign_word,
-                part_of_speech=self.edit_panel.part_of_speech.text()
+                part_of_speech=part_of_speech,
             )
         if native_word:
             self.lists_panel.add_native(
@@ -44,9 +53,11 @@ class UpperPanelWidget(QWidget):
             self.lists_panel.add_foreign(
                 word=foreign_word,
             )
+        self.edit_panel.clear_all()
+        self.lists_panel.cancel()
 
     def delete(self):
-        self.lists_panel.delete()
+        self.lists_panel.remove()
 
     def cancel(self):
         self.edit_panel.clear_all()

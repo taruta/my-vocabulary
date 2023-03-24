@@ -1,5 +1,12 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout
-from src.qt.edit_vocabulary.panels import UpperPanelWidget, BottomPanelWidget
+from PyQt6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+)
+
+from src.qt.edit_vocabulary.panels import (
+    UpperPanelWidget,
+    BottomPanelWidget,
+)
 
 
 class MainPanelWidget(QWidget):

@@ -1,7 +1,13 @@
-from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit
+from PyQt6.QtWidgets import (
+    QWidget,
+    QGridLayout,
+    QLabel,
+    QLineEdit,
+)
+
 from src.datamodels import Word
-from ..words_list_model import WordsListModel
 from ..list_view import WordsListView
+from ..words_list_model import WordsListModel
 
 
 class ListsPanelWidget(QWidget):
@@ -18,8 +24,13 @@ class ListsPanelWidget(QWidget):
             self._native_model,
         )
         self._native_list_filter = QLineEdit()
-        # self._native_list_filter.textChanged.connect(some)
+        self._native_list_filter.textChanged.connect(
+            self._filter_native
+        )
         self._foreign_list_filter = QLineEdit()
+        self._foreign_list_filter.textChanged.connect(
+            self._filter_foreign
+        )
         layout = QGridLayout()
         layout.addWidget(QLabel('Foreign'), 0, 0)
         layout.addWidget(QLabel('Native'), 0, 1)
@@ -39,27 +50,22 @@ class ListsPanelWidget(QWidget):
             word=word,
         )
 
-    def delete(self):
+    def remove(self):
         native = self._native_model.get(
             self._native_list.currentIndex()
         )
         foreign = self._foreign_model.get(
             self._foreign_list.currentIndex()
         )
-        if native and foreign:
-            del native.relations[foreign.name]
-            del foreign.relations[native.name]
-
-            if len(native.relations) == 0:
-                self._native_model.delete(native)
-                self._native_list.setCurrentIndex(
-                    self._native_model.index(-1)
-                )
-            if len(foreign.relations) == 0:
-                self._foreign_model.delete(foreign)
-                self._foreign_list.setCurrentIndex(
-                    self._foreign_model.index(-1)
-                )
+        if native and foreign and \
+                native.relations.get(foreign.name) and \
+                foreign.relations.get(native.name):
+            native.remove_relation(foreign.name)
+            foreign.remove_relation(native.name)
+        if native and native.has_relations():
+            self._remove_native(native)
+        if foreign and foreign.has_relations():
+            self._remove_foreign(foreign)
 
     def cancel(self):
         self._native_list.setCurrentIndex(
@@ -70,3 +76,27 @@ class ListsPanelWidget(QWidget):
         )
         self._native_list_filter.setText('')
         self._foreign_list_filter.setText('')
+
+    def _filter_foreign(self):
+        self._foreign_model.filter(
+            self._foreign_list_filter.text()
+        )
+
+    def _filter_native(self):
+        self._native_model.filter(
+            self._native_list_filter.text()
+        )
+
+    def _remove_native(self, word: Word):
+        if len(word.relations) == 0:
+            self._native_model.delete(word)
+            self._native_list.setCurrentIndex(
+                self._native_model.index(-1)
+            )
+
+    def _remove_foreign(self, word: Word):
+        if len(word.relations) == 0:
+            self._foreign_model.delete(word)
+            self._foreign_list.setCurrentIndex(
+                self._foreign_model.index(-1)
+            )

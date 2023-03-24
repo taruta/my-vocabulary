@@ -1,4 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QGridLayout
+from PyQt6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QLineEdit,
+    QGridLayout,
+    QComboBox,
+)
 
 
 class EditPanelWidget(QWidget):
@@ -7,20 +13,25 @@ class EditPanelWidget(QWidget):
         self.setFixedSize(400, 200)
         self.foreign = QLineEdit()
         self.native = QLineEdit()
-        self.part_of_speech = QLineEdit()
+        self.part_of_speech = QComboBox()
+        self.part_of_speech.addItems(('Noun', 'Verb',))
         self.transcription = QLineEdit()
         self.example = QLineEdit()
+        self.topic = QComboBox()
+        self.topic.addItems(('Empty',))
         layout = QGridLayout()
-        layout.addWidget(QLabel('Foreign'), 0, 0)
-        layout.addWidget(QLabel('Native'), 1, 0)
-        layout.addWidget(QLabel('Part of speech'), 2, 0)
-        layout.addWidget(QLabel('Transcription'), 3, 0)
-        layout.addWidget(QLabel('Example'), 4, 0)
-        layout.addWidget(self.foreign, 0, 1)
-        layout.addWidget(self.native, 1, 1)
-        layout.addWidget(self.part_of_speech, 2, 1)
-        layout.addWidget(self.transcription, 3, 1)
-        layout.addWidget(self.example, 4, 1)
+        layout.addWidget(QLabel('Part of speech'), 0, 0)
+        layout.addWidget(QLabel('Topic'), 1, 0)
+        layout.addWidget(QLabel('Foreign'), 2, 0)
+        layout.addWidget(QLabel('Native'), 3, 0)
+        layout.addWidget(QLabel('Transcription'), 4, 0)
+        layout.addWidget(QLabel('Example'), 5, 0)
+        layout.addWidget(self.part_of_speech, 0, 1)
+        layout.addWidget(self.topic, 1, 1)
+        layout.addWidget(self.foreign, 2, 1)
+        layout.addWidget(self.native, 3, 1)
+        layout.addWidget(self.transcription, 4, 1)
+        layout.addWidget(self.example, 5, 1)
         self.setLayout(layout)
 
     def clear_all(self):
@@ -28,4 +39,3 @@ class EditPanelWidget(QWidget):
         self.native.setText('')
         self.transcription.setText('')
         self.example.setText('')
-        self.part_of_speech.setText('')

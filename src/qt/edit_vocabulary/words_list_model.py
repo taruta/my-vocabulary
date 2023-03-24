@@ -1,5 +1,16 @@
-from PyQt6.QtCore import QAbstractListModel, QModelIndex, QVariant, Qt
-from typing import Any, Tuple, Optional
+from typing import (
+    Any,
+    Optional,
+    Tuple,
+)
+
+from PyQt6.QtCore import (
+    QAbstractListModel,
+    QModelIndex,
+    QVariant,
+    Qt,
+)
+
 from src.datamodels import Word
 
 
@@ -34,16 +45,26 @@ class WordsListModel(QAbstractListModel):
             self._words[word.name] = exists_word
         else:
             self._words[word.name] = word
-        self._refresh()
+        self._reset()
 
     def delete(self, word: Word) -> None:
         del self._words[word.name]
-        self._refresh()
+        self._reset()
 
     def change(self, word: Word) -> None:
         pass
 
-    def _refresh(self) -> None:
+    def filter(self, mask: str):
+        if mask:
+            self._current = []
+            for name, word in self._words.items():
+                if mask.lower() in name[0:len(mask)].lower():
+                    self._current.append(word)
+            self.layoutChanged.emit()
+        else:
+            self._reset()
+
+    def _reset(self) -> None:
         self._current = []
         for key, word in self._words.items():
             self._current.append(word)

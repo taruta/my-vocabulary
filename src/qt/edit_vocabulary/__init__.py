@@ -1,13 +1,11 @@
+import sys
+
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
 )
-import sys
-from src.qt.edit_vocabulary.panels import (
-    MainPanelWidget,
-    BottomPanelWidget,
-    UpperPanelWidget,
-)
+
+from src.qt.edit_vocabulary.panels import MainPanelWidget
 
 
 class MainWindow(QMainWindow):
@@ -28,4 +26,3 @@ if __name__ == '__main__':
     )
     window.show()
     app.exec()
-
