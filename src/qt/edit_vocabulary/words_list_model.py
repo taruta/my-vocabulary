@@ -30,7 +30,7 @@ class WordsListModel(QAbstractListModel):
             return QVariant(self._current[index.row()].name)
         return QVariant()
 
-    def get(self, index: QModelIndex) -> Optional[Word]:
+    def get_current_word(self, index: QModelIndex) -> Optional[Word]:
         if index.row() > -1:
             return self._current[index.row()]
         return None
@@ -58,7 +58,7 @@ class WordsListModel(QAbstractListModel):
         if mask:
             self._current = []
             for name, word in self._words.items():
-                if mask.lower() in name[0:len(mask)].lower():
+                if name.startswith(mask.lower()):
                     self._current.append(word)
             self.layoutChanged.emit()
         else:

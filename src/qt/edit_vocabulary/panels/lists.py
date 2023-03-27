@@ -51,10 +51,10 @@ class ListsPanelWidget(QWidget):
         )
 
     def remove(self):
-        native = self._native_model.get(
+        native = self._native_model.get_current_word(
             self._native_list.currentIndex()
         )
-        foreign = self._foreign_model.get(
+        foreign = self._foreign_model.get_current_word(
             self._foreign_list.currentIndex()
         )
         if native and foreign and \
@@ -88,14 +88,14 @@ class ListsPanelWidget(QWidget):
         )
 
     def _remove_native(self, word: Word):
-        if len(word.relations) == 0:
+        if not word.has_relations():
             self._native_model.delete(word)
             self._native_list.setCurrentIndex(
                 self._native_model.index(-1)
             )
 
     def _remove_foreign(self, word: Word):
-        if len(word.relations) == 0:
+        if not word.has_relations():
             self._foreign_model.delete(word)
             self._foreign_list.setCurrentIndex(
                 self._foreign_model.index(-1)

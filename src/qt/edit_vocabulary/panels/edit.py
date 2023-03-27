@@ -6,6 +6,8 @@ from PyQt6.QtWidgets import (
     QComboBox,
 )
 
+from src.enums import PartOfSpeech
+
 
 class EditPanelWidget(QWidget):
     def __init__(self):
@@ -14,7 +16,12 @@ class EditPanelWidget(QWidget):
         self.foreign = QLineEdit()
         self.native = QLineEdit()
         self.part_of_speech = QComboBox()
-        self.part_of_speech.addItems(('Noun', 'Verb',))
+        self.part_of_speech.addItems(
+            (
+                PartOfSpeech.NOUN.value.capitalize(),
+                PartOfSpeech.VERB.value.capitalize(),
+            )
+        )
         self.transcription = QLineEdit()
         self.example = QLineEdit()
         self.topic = QComboBox()
