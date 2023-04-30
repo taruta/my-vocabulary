@@ -6,6 +6,13 @@ class PartOfSpeech(Enum):
     VERB = 'verb'
 
 
+class Topic(Enum):
+    EMPTY = 'Empty'
+    FAMILY = 'Family'
+
+
 __all__ = (
     'PartOfSpeech',
+    'Topic',
 )
+

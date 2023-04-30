@@ -1,8 +1,9 @@
 from .bottom import BottomPanelWidget
 from .edit import EditPanelWidget
+from .words import WordsPanelWidget
 from .lists import ListsPanelWidget
-from .upper import UpperPanelWidget
 from .main import MainPanelWidget
+from .upper import UpperPanelWidget
 
 
 __all__ = (
@@ -11,4 +12,5 @@ __all__ = (
     'ListsPanelWidget',
     'UpperPanelWidget',
     'MainPanelWidget',
+    'WordsPanelWidget',
 )

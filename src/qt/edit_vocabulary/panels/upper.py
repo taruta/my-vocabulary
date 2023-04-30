@@ -14,8 +14,11 @@ from .lists import ListsPanelWidget
 class UpperPanelWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
-        self.edit_panel = EditPanelWidget()
-        self.lists_panel = ListsPanelWidget()
+        self.edit_panel = EditPanelWidget(self)
+        self.lists_panel = ListsPanelWidget(
+            self,
+            self.edit_panel,
+        )
         layout = QGridLayout()
         layout.addWidget(self.edit_panel, 0, 0)
         layout.addWidget(self.lists_panel, 0, 1)
@@ -42,23 +45,22 @@ class UpperPanelWidget(QWidget):
                 part_of_speech=part_of_speech,
             )
             foreign_word.relations[native_word.name] = Relation(
-                word=foreign_word,
+                word=native_word,
                 part_of_speech=part_of_speech,
             )
         if native_word:
-            self.lists_panel.add_native(
+            self.lists_panel.native_panel.add(
                 word=native_word,
             )
         if foreign_word:
-            self.lists_panel.add_foreign(
+            self.lists_panel.foreign_panel.add(
                 word=foreign_word,
             )
-        self.edit_panel.clear_all()
-        self.lists_panel.cancel()
+        self.edit_panel.clean()
 
     def delete(self):
         self.lists_panel.remove()
 
     def cancel(self):
-        self.edit_panel.clear_all()
+        self.edit_panel.clean()
         self.lists_panel.cancel()

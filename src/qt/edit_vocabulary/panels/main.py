@@ -3,10 +3,8 @@ from PyQt6.QtWidgets import (
     QGridLayout,
 )
 
-from src.qt.edit_vocabulary.panels import (
-    UpperPanelWidget,
-    BottomPanelWidget,
-)
+from .bottom import BottomPanelWidget
+from .upper import UpperPanelWidget
 
 
 class MainPanelWidget(QWidget):

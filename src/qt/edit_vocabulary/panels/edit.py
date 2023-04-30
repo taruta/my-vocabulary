@@ -6,12 +6,15 @@ from PyQt6.QtWidgets import (
     QComboBox,
 )
 
-from src.enums import PartOfSpeech
+from src.enums import (
+    PartOfSpeech,
+    Topic,
+)
 
 
 class EditPanelWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        super().__init__(parent=parent)
         self.setFixedSize(400, 200)
         self.foreign = QLineEdit()
         self.native = QLineEdit()
@@ -25,7 +28,12 @@ class EditPanelWidget(QWidget):
         self.transcription = QLineEdit()
         self.example = QLineEdit()
         self.topic = QComboBox()
-        self.topic.addItems(('Empty',))
+        self.topic.addItems(
+            (
+                Topic.EMPTY.value,
+                Topic.FAMILY.value,
+            )
+        )
         layout = QGridLayout()
         layout.addWidget(QLabel('Part of speech'), 0, 0)
         layout.addWidget(QLabel('Topic'), 1, 0)
@@ -41,8 +49,8 @@ class EditPanelWidget(QWidget):
         layout.addWidget(self.example, 5, 1)
         self.setLayout(layout)
 
-    def clear_all(self):
-        self.foreign.setText('')
-        self.native.setText('')
-        self.transcription.setText('')
-        self.example.setText('')
+    def clean(self) -> None:
+        self.foreign.clear()
+        self.native.clear()
+        self.transcription.clear()
+        self.example.clear()
