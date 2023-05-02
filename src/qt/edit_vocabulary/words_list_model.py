@@ -2,6 +2,8 @@ from typing import (
     Any,
     Optional,
     Tuple,
+    Union,
+    Iterable,
 )
 
 from PyQt6.QtCore import (
@@ -47,16 +49,16 @@ class WordsListModel(QAbstractListModel):
             self._words[word.name] = exists_word
         else:
             self._words[word.name] = word
-        self._reset()
+        self.reset()
 
     def delete(self, word: Word) -> None:
         del self._words[word.name]
-        self._reset()
+        self.reset()
 
     def change(self, word: Word) -> None:
         pass
 
-    def filter(self, mask: str):
+    def filter(self, mask: Union[str, Word]):
         if mask:
             self._current = []
             for name, word in self._words.items():
@@ -64,9 +66,16 @@ class WordsListModel(QAbstractListModel):
                     self._current.append(word)
             self.layoutChanged.emit()
         else:
-            self._reset()
+            self.reset()
 
-    def _reset(self) -> None:
+    def display_words(self, words: Iterable[Word]):
+        self._current = []
+        for word in words:
+            if word.name in self._words:
+                self._current.append(word)
+        self.layoutChanged.emit()
+
+    def reset(self) -> None:
         self._current = []
         for key, word in self._words.items():
             self._current.append(word)

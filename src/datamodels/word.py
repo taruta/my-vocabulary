@@ -19,6 +19,7 @@ class Word(BaseModel):
     transcription: Optional[str]
     example: Optional[str]
     relations: Dict[str, "Relation"] = {}
+    topic: Optional[str]
 
     def has_relations(self) -> bool:
         if len(self.relations) > 0:

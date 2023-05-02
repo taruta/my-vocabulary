@@ -21,8 +21,8 @@ class EditPanelWidget(QWidget):
         self.part_of_speech = QComboBox()
         self.part_of_speech.addItems(
             (
-                PartOfSpeech.NOUN.value.capitalize(),
-                PartOfSpeech.VERB.value.capitalize(),
+                PartOfSpeech.NOUN.value,
+                PartOfSpeech.VERB.value,
             )
         )
         self.transcription = QLineEdit()
@@ -49,8 +49,10 @@ class EditPanelWidget(QWidget):
         layout.addWidget(self.example, 5, 1)
         self.setLayout(layout)
 
-    def clean(self) -> None:
+    def cansel(self) -> None:
         self.foreign.clear()
         self.native.clear()
         self.transcription.clear()
         self.example.clear()
+        self.part_of_speech.setCurrentText(PartOfSpeech.NOUN.value)
+        self.topic.setCurrentText(Topic.EMPTY.value)

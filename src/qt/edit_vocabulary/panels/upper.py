@@ -36,10 +36,11 @@ class UpperPanelWidget(QWidget):
                 name=self.edit_panel.foreign.text(),
                 transcription=self.edit_panel.transcription.text(),
                 example=self.edit_panel.example.text(),
+                topic=self.edit_panel.topic.currentText(),
             )
         if native_word and foreign_word:
             part_of_speech = \
-                self.edit_panel.part_of_speech.currentText().lower()
+                self.edit_panel.part_of_speech.currentText()
             native_word.relations[foreign_word.name] = Relation(
                 word=foreign_word,
                 part_of_speech=part_of_speech,
@@ -56,11 +57,11 @@ class UpperPanelWidget(QWidget):
             self.lists_panel.foreign_panel.add(
                 word=foreign_word,
             )
-        self.edit_panel.clean()
+        self.edit_panel.cansel()
 
     def delete(self):
         self.lists_panel.remove()
 
     def cancel(self):
-        self.edit_panel.clean()
+        self.edit_panel.cansel()
         self.lists_panel.cancel()

@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class PartOfSpeech(Enum):
-    NOUN = 'noun'
-    VERB = 'verb'
+    NOUN = 'Noun'
+    VERB = 'Verb'
 
 
 class Topic(Enum):

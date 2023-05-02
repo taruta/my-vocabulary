@@ -1,10 +1,12 @@
+from typing import Tuple
+
 from PyQt6.QtWidgets import (
     QWidget,
     QGridLayout,
     QLineEdit,
 )
 
-from src.datamodels import Word
+from src.datamodels import Word, Relation
 from ..list_view import WordsListView
 from ..words_list_model import WordsListModel
 
@@ -49,6 +51,16 @@ class WordsPanelWidget(QWidget):
             self._model.index(-1)
         )
         self._words_filter.clear()
+        self._model.reset()
+
+    def filter_by_relations(self, relations: Tuple[Relation, ...]):
+        words = []
+        for relation in relations:
+            words.append(relation.word)
+        self._model.display_words(words)
+        self.list.setCurrentIndex(
+            self._model.index(-1)
+        )
 
     def _filter(self):
         self._model.filter(

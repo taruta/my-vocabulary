@@ -29,11 +29,17 @@ class ListsPanelWidget(QWidget):
         self.native_panel.list.clicked.connect(
             self._select
         )
+        self.native_panel.list.clicked.connect(
+            self._filter_by_native
+        )
         self.foreign_panel.list.clicked.connect(
             self._select
         )
+        self.foreign_panel.list.clicked.connect(
+            self._filter_by_foreign
+        )
 
-    def remove(self):
+    def remove(self) -> None:
         native = self.native_panel.get_current()
         foreign = self.foreign_panel.get_current()
         if native and foreign and \
@@ -48,27 +54,49 @@ class ListsPanelWidget(QWidget):
             self.foreign_panel.remove(foreign)
             self._edit_panel.foreign.clear()
 
-    def cancel(self):
+    def cancel(self) -> None:
         self.native_panel.cancel()
         self.foreign_panel.cancel()
 
-    def _select(self):
+    def _select(self) -> None:
         native = self.native_panel.get_current()
         foreign = self.foreign_panel.get_current()
         if native:
             self._edit_panel.native.setText(native.name)
         if foreign:
             self._edit_panel.foreign.setText(foreign.name)
-        if native and foreign \
-                and native.relations.get(foreign.name) \
-                and foreign.relations.get(native.name):
-            self._edit_panel.transcription.setText(
-                foreign.transcription
-            )
-            self._edit_panel.example.setText(
-                foreign.example
-            )
+        if native and foreign:
+            native_rel = native.relations.get(foreign.name)
+            foreign_rel = foreign.relations.get(native.name)
+            if native_rel and foreign_rel:
+                self._edit_panel.transcription.setText(
+                    foreign.transcription
+                )
+                self._edit_panel.example.setText(
+                    foreign.example
+                )
+                self._edit_panel.topic.setCurrentText(
+                    foreign.topic
+                )
+                self._edit_panel.part_of_speech.setCurrentText(
+                    foreign_rel.part_of_speech.value
+                )
         else:
             self._edit_panel.transcription.clear()
             self._edit_panel.example.clear()
 
+    def _filter_by_native(self):
+        native = self.native_panel.get_current()
+        foreign = self.foreign_panel.get_current()
+        if not foreign or foreign.name not in native.relations:
+            self.foreign_panel.filter_by_relations(
+               tuple(relation for relation in native.relations.values())
+            )
+
+    def _filter_by_foreign(self):
+        native = self.native_panel.get_current()
+        foreign = self.foreign_panel.get_current()
+        if not native or native.name not in foreign.relations:
+            self.native_panel.filter_by_relations(
+                tuple(relation for relation in foreign.relations.values())
+            )
