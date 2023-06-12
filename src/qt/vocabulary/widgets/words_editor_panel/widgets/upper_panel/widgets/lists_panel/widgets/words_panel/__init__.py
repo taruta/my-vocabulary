@@ -7,8 +7,8 @@ from PyQt6.QtWidgets import (
 )
 
 from src.datamodels import Word, Relation
-from ..list_view import WordsListView
-from ..words_list_model import WordsListModel
+from .model import WordsListModel
+from .view import WordsListView
 
 
 class WordsPanelWidget(QWidget):
@@ -66,3 +66,8 @@ class WordsPanelWidget(QWidget):
         self._model.filter(
             self._words_filter.text()
         )
+
+
+__all__ = (
+    'WordsPanelWidget',
+)

@@ -23,6 +23,7 @@ class EditPanelWidget(QWidget):
             (
                 PartOfSpeech.NOUN.value,
                 PartOfSpeech.VERB.value,
+                PartOfSpeech.ADJECTIVE.value,
             )
         )
         self.transcription = QLineEdit()

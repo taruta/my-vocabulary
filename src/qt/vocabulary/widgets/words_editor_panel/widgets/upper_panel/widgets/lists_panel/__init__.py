@@ -4,10 +4,8 @@ from PyQt6.QtWidgets import (
     QLabel,
 )
 
-from .edit import EditPanelWidget
-from .words import (
-    WordsPanelWidget
-)
+from ..edit import EditPanelWidget
+from .widgets import WordsPanelWidget
 
 
 class ListsPanelWidget(QWidget):
@@ -100,3 +98,8 @@ class ListsPanelWidget(QWidget):
             self.native_panel.filter_by_relations(
                 tuple(relation for relation in foreign.relations.values())
             )
+
+
+__all__ = (
+    'ListsPanelWidget',
+)

@@ -7,8 +7,11 @@ from src.datamodels import (
     Word,
     Relation,
 )
-from .edit import EditPanelWidget
-from .lists import ListsPanelWidget
+
+from .widgets import (
+    EditPanelWidget,
+    ListsPanelWidget,
+)
 
 
 class UpperPanelWidget(QWidget):
@@ -65,3 +68,8 @@ class UpperPanelWidget(QWidget):
     def cancel(self):
         self.edit_panel.cansel()
         self.lists_panel.cancel()
+
+
+__all__ = (
+    'UpperPanelWidget',
+)

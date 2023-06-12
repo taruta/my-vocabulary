@@ -3,11 +3,13 @@ from PyQt6.QtWidgets import (
     QGridLayout,
 )
 
-from .bottom import BottomPanelWidget
-from .upper import UpperPanelWidget
+from .widgets import (
+    BottomPanelWidget,
+    UpperPanelWidget,
+)
 
 
-class MainPanelWidget(QWidget):
+class WordEditorPanelWidget(QWidget):
     def __init__(self) -> None:
         super().__init__()
         upper_panel = UpperPanelWidget(self)
@@ -21,3 +23,8 @@ class MainPanelWidget(QWidget):
         self.layout.addWidget(upper_panel, 0, 0)
         self.layout.addWidget(bottom_panel, 1, 0)
         self.setLayout(self.layout)
+
+
+__all__ = (
+    'WordEditorPanelWidget',
+)

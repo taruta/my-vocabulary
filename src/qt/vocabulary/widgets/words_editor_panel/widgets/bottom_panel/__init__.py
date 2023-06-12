@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QGridLayout
-from .upper import UpperPanelWidget
+from ..upper_panel import UpperPanelWidget
 
 
 class BottomPanelWidget(QWidget):

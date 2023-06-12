@@ -5,13 +5,13 @@ from PyQt6.QtWidgets import (
     QMainWindow,
 )
 
-from src.qt.edit_vocabulary.panels import MainPanelWidget
+from .widgets import WordEditorPanelWidget
 
 
-class MainWindow(QMainWindow):
+class WordsEditorWindow(QMainWindow):
     def __init__(
             self,
-            main_panel: MainPanelWidget,
+            main_panel: WordEditorPanelWidget,
     ) -> None:
         super().__init__()
         self.setWindowTitle('Words Editor')
@@ -21,8 +21,8 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = MainWindow(
-        main_panel=MainPanelWidget(),
+    window = WordsEditorWindow(
+        main_panel=WordEditorPanelWidget(),
     )
     window.show()
     app.exec()
