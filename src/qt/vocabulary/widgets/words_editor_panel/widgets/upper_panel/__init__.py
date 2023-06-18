@@ -105,7 +105,6 @@ class UpperPanelWidget(QWidget):
         self._edit_panel.foreign.clear()
 
 
-
 __all__ = (
     'UpperPanelWidget',
 )
