@@ -50,7 +50,7 @@ class EditPanelWidget(QWidget):
         layout.addWidget(self.example, 5, 1)
         self.setLayout(layout)
 
-    def cansel(self) -> None:
+    def cancel(self) -> None:
         self.foreign.clear()
         self.native.clear()
         self.transcription.clear()

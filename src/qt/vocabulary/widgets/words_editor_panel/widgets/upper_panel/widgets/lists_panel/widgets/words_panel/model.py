@@ -44,7 +44,7 @@ class WordsListModel(QAbstractListModel):
                 exists_relation = exists_word.relations.get(relation_name)
                 if not exists_relation:
                     exists_word.relations[relation_name] = relation
-            exists_word.example = word.example
+            # exists_word.example = word.example
             exists_word.transcription = word.transcription
             self._words[word.name] = exists_word
         else:

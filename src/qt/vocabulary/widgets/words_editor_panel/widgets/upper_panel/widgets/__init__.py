@@ -1,4 +1,4 @@
-from .edit import EditPanelWidget
+from .edit_panel import EditPanelWidget
 from .lists_panel import ListsPanelWidget
 
 __all__ = (

@@ -1,21 +1,23 @@
+from typing import Optional
+
 from PyQt6.QtWidgets import (
     QWidget,
     QGridLayout,
     QLabel,
 )
 
-from ..edit import EditPanelWidget
+from src.datamodels import (
+    Word,
+)
 from .widgets import WordsPanelWidget
 
 
 class ListsPanelWidget(QWidget):
     def __init__(
             self,
-            parent: QWidget,
-            edit_panel: EditPanelWidget
+            parent: QWidget
     ):
         super().__init__(parent=parent)
-        self._edit_panel = edit_panel
         self.foreign_panel = WordsPanelWidget(self)
         self.native_panel = WordsPanelWidget(self)
         layout = QGridLayout()
@@ -25,63 +27,44 @@ class ListsPanelWidget(QWidget):
         layout.addWidget(self.native_panel, 1, 1)
         self.setLayout(layout)
         self.native_panel.list.clicked.connect(
-            self._select
+            self.parent().select
         )
         self.native_panel.list.clicked.connect(
             self._filter_by_native
         )
         self.foreign_panel.list.clicked.connect(
-            self._select
+            self.parent().select
         )
         self.foreign_panel.list.clicked.connect(
             self._filter_by_foreign
         )
 
-    def remove(self) -> None:
-        native = self.native_panel.get_current()
-        foreign = self.foreign_panel.get_current()
-        if native and foreign and \
-                native.relations.get(foreign.name) and \
-                foreign.relations.get(native.name):
-            native.remove_relation(foreign.name)
-            foreign.remove_relation(native.name)
+    def remove(
+            self,
+            native: Optional[Word],
+            foreign: Optional[Word],
+    ) -> None:
         if native and not native.has_relations():
             self.native_panel.remove(native)
-            self._edit_panel.native.clear()
         if foreign and not foreign.has_relations():
             self.foreign_panel.remove(foreign)
-            self._edit_panel.foreign.clear()
+        self.parent().cancel()
 
     def cancel(self) -> None:
         self.native_panel.cancel()
         self.foreign_panel.cancel()
 
-    def _select(self) -> None:
-        native = self.native_panel.get_current()
-        foreign = self.foreign_panel.get_current()
-        if native:
-            self._edit_panel.native.setText(native.name)
-        if foreign:
-            self._edit_panel.foreign.setText(foreign.name)
-        if native and foreign:
-            native_rel = native.relations.get(foreign.name)
-            foreign_rel = foreign.relations.get(native.name)
-            if native_rel and foreign_rel:
-                self._edit_panel.transcription.setText(
-                    foreign.transcription
-                )
-                self._edit_panel.example.setText(
-                    foreign.example
-                )
-                self._edit_panel.topic.setCurrentText(
-                    foreign.topic
-                )
-                self._edit_panel.part_of_speech.setCurrentText(
-                    foreign_rel.part_of_speech.value
-                )
-        else:
-            self._edit_panel.transcription.clear()
-            self._edit_panel.example.clear()
+    def add_native(self, word: Word) -> None:
+        self.native_panel.add(word)
+
+    def add_foreign(self, word: Word) -> None:
+        self.foreign_panel.add(word)
+
+    def get_current_native(self) -> Word:
+        return self.native_panel.get_current()
+
+    def get_current_foreign(self) -> Word:
+        return self.foreign_panel.get_current()
 
     def _filter_by_native(self):
         native = self.native_panel.get_current()

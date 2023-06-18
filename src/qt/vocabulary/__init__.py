@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (
     QMainWindow,
 )
 
-from .widgets import WordEditorPanelWidget
+from src.qt.vocabulary.widgets import WordEditorPanelWidget
 
 
 class WordsEditorWindow(QMainWindow):
